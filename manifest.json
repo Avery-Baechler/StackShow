@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "StackShow",
+  "version": "1.0",
+
+  "description": "Shows if a website is made with a popular tech stack",
+
+  "icons": {
+    "48": "icons/stackshow-48.png"
+  },
+
+    "permissions": [
+        "activeTab"
+    ],
+
+  "browser_action": {
+    "default_icon": "icons/stackshow-48.png",
+    "default_title": "StackShow",
+    "default_popup": "popup/menu.html"
+  }, 
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
+
+}
+
