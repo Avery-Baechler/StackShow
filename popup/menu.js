@@ -1,17 +1,29 @@
-var table = document.getElementById("table-results");
-var url = window.location.herf;
-var domData;
-const scanButton = document.getElementById("scanButton")
+const scanButton = document.getElementById("scanButton");
+//scanButton.disabled = true;
+const resultsTable = document.getElementById("resultsTable");
+var tools;
 
 
-function Show() {
-  //var row = table.insertRow(0);
-  //var cell1 = row.insertCell(0);
-  //cell1.innerHTML = "NEW CELL1";
+function Show(data,table) {
+
+    while (table.rows.length > 1) {
+        table.removeChild(table.rows[1]);
+    }
+
+    data.forEach(tool => {
+    const row = table.insertRow();
+    const cell = row.insertCell(0);
+    cell.textContent = tool;   
+    }) 
 }
 
 function handleResponse(message) {
-      console.log(`Data: ${message.data}`);
+    if (message.name == "tools") {
+        tools = message.data;
+        console.log(tools); 
+    }
+    console.log(`Data: ${message}`);
+    
 }
 
 function handleError(error) {
@@ -20,10 +32,10 @@ function handleError(error) {
 
 document.addEventListener("DOMContentLoaded", function () {
     scanButton.addEventListener("click", function(){
-    const sending = browser.runtime.sendMessage({message : "scanPage",});
+    const sending = browser.runtime.sendMessage({name : "scanPage",});
     sending.then(handleResponse,handleError);
     console.log("scan page button");
+    Show(tools,resultsTable);
     });
 });
-
 
