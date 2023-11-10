@@ -1,4 +1,4 @@
-var html;
+var html = "";
 
 const classToToolMap = {
   "wordpress": "WordPress",
@@ -31,51 +31,67 @@ const classToToolMap = {
 
 
 function getActiveTabDOM() {
-  browser.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    const activeTab = tabs[0];
-    if (activeTab) {
-      browser.tabs.executeScript({
-        code: 'document.documentElement.outerHTML'
-      }).then(result => {
-          html = result;
-          //console.log(html) 
-      }); 
-    }
+  return new Promise((resolve, reject) => {
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+      const activeTab = tabs[0];
+      if (activeTab) {
+        browser.tabs.executeScript(activeTab.id, {
+          code: 'document.documentElement.outerHTML;'
+        }).then(result => {
+          resolve(result);
+        }).catch(error => {
+          reject(error);
+        });
+      } else {
+        reject('No active tab found');
+      }
+    }).catch(error => {
+        reject(error);
+    });
   });
-    return html;
 }
 
-function scrapePage(data,classToToolMap) {
-const matchingTools = new Map();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const elements = doc.querySelectorAll('*');
 
-  elements.forEach(element => {
-    const classList = Array.from(element.classList);
+function scrapePage(html, classToToolMap) {
+  return new Promise((resolve) => {
+    const matchingTools = new Map();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const elements = doc.querySelectorAll('*');
 
-     for (const className of classList) {
-      for (const partialClass in classToToolMap) {
-        if (className.toLowerCase().includes(partialClass.toLowerCase())) {
-          matchingTools.set(classToToolMap[partialClass]);
-          break; // Once a partial match is found, break the loop
+    elements.forEach(element => {
+      const classList = Array.from(element.classList);
+
+      for (const className of classList) {
+        for (const partialClass in classToToolMap) {
+          if (className.toLowerCase().includes(partialClass.toLowerCase())) {
+            matchingTools.set(partialClass, classToToolMap[partialClass]);
+            break;
+          }
         }
       }
-    }
+    });
+
+    resolve(Array.from(matchingTools.values()));
   });
-
-  return Array.from(matchingTools.keys());
 }
-
 
 
 function handleMessage(message,sendResponse) {
-    html = getActiveTabDOM(); 
-    console.log(html);
-    domData = scrapePage(html,classToToolMap);
-    return Promise.resolve({name:"tools", data: domData})
-}
+if (message.name === "scanPage") {
 
+    return getActiveTabDOM().then(html => {
+ 
+      return scrapePage(html,classToToolMap).then(domData => {
+        return {name: "tools", data: domData};
+      });
+    }).catch(error => {
+
+      throw error;
+    });
+  }
+  return Promise.reject('Unrecognized action');
+}
 browser.runtime.onMessage.addListener(handleMessage);
 
 
