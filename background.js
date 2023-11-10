@@ -1,5 +1,10 @@
 var html = "";
 
+
+//https://www.bairesdev.com/blog/top-development-frameworks/
+//and gpt for the database
+
+
 const classToToolMap = {
   "wordpress": "WordPress",
   "wp-": "WordPress",   
@@ -29,6 +34,16 @@ const classToToolMap = {
 };
 
 
+(async () => {
+  try {
+    const dataModule = await import('./data.js');
+    const classToToolMap = dataModule.classToToolMap;
+    // Now you can use classToToolMap in your logic
+  } catch (error) {
+    console.error('Error loading data module:', error);
+  }
+})();
+
 
 function getActiveTabDOM() {
   return new Promise((resolve, reject) => {
@@ -52,29 +67,6 @@ function getActiveTabDOM() {
 }
 
 
-function scrapePage(html, classToToolMap) {
-  return new Promise((resolve) => {
-    const matchingTools = new Map();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const elements = doc.querySelectorAll('*');
-
-    elements.forEach(element => {
-      const classList = Array.from(element.classList);
-
-      for (const className of classList) {
-        for (const partialClass in classToToolMap) {
-          if (className.toLowerCase().includes(partialClass.toLowerCase())) {
-            matchingTools.set(partialClass, classToToolMap[partialClass]);
-            break;
-          }
-        }
-      }
-    });
-
-    resolve(Array.from(matchingTools.values()));
-  });
-}
 
 
 function handleMessage(message,sendResponse) {
