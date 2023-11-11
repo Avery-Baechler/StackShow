@@ -19,8 +19,12 @@
     "default_popup": "popup/menu.html"
   }, 
 
+   "web_accessible_resources": [
+    "toolToKeyDB.js"
+  ],
+
   "background": {
-    "scripts": ["background.js", "toolToKey.js"],
+    "scripts": ["background.js"],
           
     "persistent": false
   }

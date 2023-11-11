@@ -1,49 +1,14 @@
-var html = "";
-
-
-//https://www.bairesdev.com/blog/top-development-frameworks/
-//and gpt for the database
-
-
-const classToToolMap = {
-  "wordpress": "WordPress",
-  "wp-": "WordPress",   
-  "wix-": "Wix",         
-  "shopify": "Shopify",
-  "squarespace": "Squarespace",
-  "weebly": "Weebly",
-  "joomla": "Joomla",
-  "webflow": "Webflow",
-  "bootstrap": "Bootstrap",
-  "elementor": "Elementor",
-  "divi-": "Divi",        
-  "godaddy": "GoDaddy",
-  "w3-": "W3Schools",  
-  "w3c": "W3C",
-  "w3schools": "W3Schools",
-  "w3school": "W3Schools", 
-  "w3css": "W3CSS",
-  "adobe-": "Adobe",  
-  "adobe": "Adobe",
-  "adobe-": "Adobe",
-  "adobe": "Adobe",
-  "react-": "React", 
-  "vue-": "Vue.js",         
-  "angular-": "Angular",    
-
-};
-
-
-(async () => {
+async function initializeClassToToolMap() {
   try {
-    const dataModule = await import('./data.js');
-    const classToToolMap = dataModule.classToToolMap;
-    // Now you can use classToToolMap in your logic
+    const dataModule = await import('./toolToKeyDB.js');
+    return dataModule.classToToolMap;
   } catch (error) {
     console.error('Error loading data module:', error);
+    return null; // Handle the error gracefully
   }
-})();
+}
 
+initializeClassToToolMap(); 
 
 function getActiveTabDOM() {
   return new Promise((resolve, reject) => {
@@ -68,13 +33,46 @@ function getActiveTabDOM() {
 
 
 
+async function scrapePage(html, initializeClassToToolMap) {
+    const classToToolMap = await initializeClassToToolMap();
+
+  return new Promise((resolve) => {
+    const matchingTools = new Map();
+    const lowerCaseClassToToolMap = Object.fromEntries(
+      Object.entries(classToToolMap).map(([key, value]) => [key.toLowerCase(), value])
+    );
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const elements = doc.querySelectorAll('*');
+
+    for (const element of elements) {
+      const classList = Array.from(element.classList);
+
+      for (const className of classList) {
+        const lowerClassName = className.toLowerCase();
+
+        for (const partialClass in lowerCaseClassToToolMap) {
+          if (lowerClassName.includes(partialClass)) {
+            matchingTools.set(partialClass, lowerCaseClassToToolMap[partialClass]);
+            break;
+          }
+        }
+      }
+    }
+
+    resolve(Array.from(matchingTools.values()));
+  });
+
+}
+
 
 function handleMessage(message,sendResponse) {
 if (message.name === "scanPage") {
 
     return getActiveTabDOM().then(html => {
  
-      return scrapePage(html,classToToolMap).then(domData => {
+      return scrapePage(html,initializeClassToToolMap).then(domData => {
         return {name: "tools", data: domData};
       });
     }).catch(error => {

@@ -1,6 +1,52 @@
-{ 
-    "classToTool" : [
-        {
+//https://www.bairesdev.com/blog/top-development-frameworks 
+//and Chat GPT 4 were used to comple  the database
+
+export const classToToolMap = { 
+
+    "wordpress": "WordPress",
+    "wp-": "WordPress",
+    "wix-": "Wix",
+    "shopify": "Shopify",
+    "squarespace": "Squarespace",
+    "weebly": "Weebly",
+    "joomla": "Joomla",
+    "webflow": "Webflow",
+    "bootstrap": "Bootstrap",
+    "elementor": "Elementor",
+    "divi-": "Divi",
+    "godaddy": "GoDaddy",
+    "w3-": "W3Schools",
+    "w3c": "W3C",
+    "w3schools": "W3Schools",
+    "w3school": "W3Schools",
+    "w3css": "W3CSS",
+    "adobe-": "Adobe",
+    "adobe": "Adobe",
+    "react-": "React",
+    "vue-": "Vue.js",
+    "angular-": "Angular",
+    "wp-theme-": "WordPress", 
+    "shopify-theme-": "Shopify",
+    "joomla-template-": "Joomla",
+    "weebly-theme-": "Weebly",
+    "bootstrap4-": "Bootstrap",
+    "elementor-widget-": "Elementor",
+    "divi-module-": "Divi",
+    "godaddy-builder-": "GoDaddy",
+    "w3-html5-": "W3Schools",
+    "reactjs-": "React",
+    "vuejs-framework-": "Vue.js",
+    "angularjs-": "Angular",
+    "wix-site-": "Wix",
+    "squarespace-template-": "Squarespace",
+    "webflow-css-": "Webflow",
+    "adobe-cc-": "Adobe",
+    "w3-js-": "W3Schools",
+    "adobe-xd-": "Adobe",
+    "react-component-": "React",
+    "vue-component-": "Vue.js",
+    "angular-component-": "Angular",
+
 
 
     "ng-": "Angular",
@@ -311,7 +357,7 @@
     "ktor-framework-": "Ktor",
     "scalatra-web-": "Scalatra",
     "toolatra-framework-": "Toolatra" 
-        }]
-}
+    
+};
 
 
