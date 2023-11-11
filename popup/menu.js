@@ -1,9 +1,6 @@
 var tools;
 
 
-document.addEventListener("DOMContentLoaded", function () {
- 
-}); 
 
 function showTable(data, table) {
     const tbody = table.querySelector('tbody');
@@ -17,59 +14,58 @@ function showTable(data, table) {
         data.forEach(tool => {
             const row = tbody.insertRow();
             const cell = row.insertCell(0);
+            row.className = "new-row"; 
             cell.textContent = tool;
         });
     } else {
         const row = tbody.insertRow();
         const cell = row.insertCell(0);
+        row.className = "new-row"; 
         cell.textContent = 'Couldn\'t find anything';
         cell.colSpan = table.getElementsByTagName('th').length;
     }
 }
-
-
-function resetTable(table) {
-  const tbody = table.querySelector('tbody');
-
-  while (tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
-  }
-  const row = tbody.insertRow();
-  const cell = row.insertCell(0);
-  cell.textContent = 'No data available';
-  cell.colSpan = table.getElementsByTagName('th').length;
-}
-
 
 function handleResponse(message) {
     if (message.name == "tools") {
         tools = message.data;
         showTable(tools,resultsTable);
     }
-    console.log(`Data: ${message}`);
-    
+
 }
 
 function handleError(error) {
-  console.log(`Error: ${error}`);
+    
+    table = resultsTable;
+    const tbody = table.querySelector('tbody');
+    const row = tbody.insertRow();
+    const cell = row.insertCell(0);
+    row.className = "new-row"; 
+    cell.textContent = 'There was an Error reading this page ';
+    cell.colSpan = table.getElementsByTagName('th').length;
+
+    console.log("error");
+
+    console.log(`Error: ${error}`);
+
+
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     
     const scanButton = document.getElementById("scanButton");
-    const resetButton = document.getElementById("resetButton");
     const resultsTable = document.getElementById("resultsTable");
+ 
+
+    const sending = browser.runtime.sendMessage({name : "scanPage",});
+        sending.then(handleResponse,handleError);
 
     scanButton.addEventListener("click", function(){
         const sending = browser.runtime.sendMessage({name : "scanPage",});
         sending.then(handleResponse,handleError);
     });
-
-    resetButton.addEventListener("click", function(){
-        resetTable(resultsTable);
-    });
-
-
-
 });
+
+
 
