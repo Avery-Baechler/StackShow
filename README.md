@@ -4,7 +4,7 @@
 # StackShow
 StackShow is a browser extention that reveals if a webpage is using popular tools and frameworks.
 
-[<img alt="alt_text" width="60px" src="https://github.com/Avery-Baechler/StackShow/blob/main/popup/firefox.svg?raw=true" />](https://addons.mozilla.org/en-US/firefox/addon/stackshow/)
+[<img alt="alt_text" width="20%" src="https://github.com/Avery-Baechler/StackShow/blob/main/popup/firefox.svg?raw=true" />](https://addons.mozilla.org/en-US/firefox/addon/stackshow/)
 
 ## Run Locally
 
