@@ -1,39 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-
 :root {
-    --bg-color : white;   
-
+    color-scheme: light dark;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    --text-color-dark: #FAF0E6; 
+        --bg-color-dark: #352F44; 
+  }
+  body.light-theme {
+      --text-color: #444444; 
+    --bg-color: #f2f2f2;  
+  }
+}
 
 body {
-    background : #f2f2f2; 
+    background: var(--bg-color);
+    color: var(--text-color); 
     margin: 0;
     font-family: 'Poppins'; 
 }
 
+
 .toolbar {
-    background : var(--bg-color);
-    padding : 1em;
+    background: var(--bg-color);
+    padding: 1em;
+    display: flex;
+    place-content: space-between; 
+}
 
-   display: flex;
-   place-content : space-between; 
+.toolbutton {
+    background-color: var(--bg-color); 
+    border-style: solid;
+    border-color: var(--text-color);
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color); 
+    display: inline-block;
+    font-family: 'Poppins'; 
+}
 
-    .toolbutton {
-        background-color : var(--bg-color); 
-        border-style : solid;
-        border-color : #444444;
-        border-radius : 8px;
-        padding: 0.5em 1em;
-        text-align : center;
-        text-decoration : none;
-        color : #444444; 
-        display : inline-block;
-        font-family : 'Poppins'; 
-    }
+.themeButton {
+    background-color: var(--bg-color); 
+    border-style: none;
+    border-color: var(--text-color);
+    text-align: center;
+    color: var(--text-color); 
+    display: inline-block;
+}
 
+.icon {
+    filter: none;
+}
 
+body.dark-theme .icon {
+    filter: invert(100%);
 }
 
 ul {
@@ -43,7 +67,7 @@ ul {
 }
 
 a {
-    color : #444444;
+    color : var(--text-color);
     font-size : 12px;
     font-family : 'Poppins'; 
 }
@@ -66,7 +90,7 @@ td {
     border-width : 2px; 
     border-style : solid;
     border-radius : 8px;
-    border-color : #444444;
+    border-color : var(--text-color);
     text-align : center;   
 }
 

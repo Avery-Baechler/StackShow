@@ -1,5 +1,20 @@
 var tools;
 
+function switchTheme(scheme) {  
+    if (scheme.matches) {
+    document.body.classList.toggle("light-theme");
+    var theme = document.body.classList.contains("light-theme")
+      ? "light"
+      : "dark";
+  } else {
+    document.body.classList.toggle("dark-theme");
+    var theme = document.body.classList.contains("dark-theme")
+      ? "dark"
+      : "light";
+  }
+  localStorage.setItem("theme", theme);
+   window.location.reload();
+}
 
 
 function showTable(data, table) {
@@ -45,10 +60,7 @@ function handleError(error) {
     cell.colSpan = table.getElementsByTagName('th').length;
 
     console.log("error");
-
     console.log(`Error: ${error}`);
-
-
 }
 
 
@@ -56,7 +68,15 @@ document.addEventListener("DOMContentLoaded", function () {
     
     const scanButton = document.getElementById("scanButton");
     const resultsTable = document.getElementById("resultsTable");
- 
+    const themeButton =  document.querySelector(".themeButton");
+    const scheme = window.matchMedia("perfers-color-scheme: dark)");
+
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme == "dark") {
+        document.body.classList.toggle("dark-theme");
+    } else if (currentTheme == "light") {
+        document.body.classList.toggle("light-theme");
+    }
 
     const sending = browser.runtime.sendMessage({name : "scanPage",});
         sending.then(handleResponse,handleError);
@@ -65,6 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const sending = browser.runtime.sendMessage({name : "scanPage",});
         sending.then(handleResponse,handleError);
     });
+
+    themeButton.addEventListener("click", function() {
+        console.log("theme"); 
+        switchTheme(scheme);
+    });
+
 });
 
 
