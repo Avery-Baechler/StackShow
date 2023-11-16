@@ -6,7 +6,7 @@
   "description": "Shows if a website is made with a popular tech stack",
 
   "icons": {
-    "32": "icons/icon-32.png", 
+    "48": "icons/icon-32.png", 
     "32" : "icons/dark-32.png"
   },
 
