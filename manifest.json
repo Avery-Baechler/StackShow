@@ -6,7 +6,8 @@
   "description": "Shows if a website is made with a popular tech stack",
 
   "icons": {
-    "48": "icons/stackshow-48.png"
+    "32": "icons/icon-32.png", 
+    "32" : "icons/dark-32.png"
   },
 
     "permissions": [
@@ -14,7 +15,7 @@
     ],
 
   "browser_action": {
-    "default_icon": "icons/stackshow-48.png",
+    "default_icon": "icons/icon-32.png",
     "default_title": "StackShow",
     "default_popup": "popup/menu.html"
   }, 
