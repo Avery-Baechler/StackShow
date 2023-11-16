@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/Avery-Baechler/StackShow/blob/main/icons/banner.PNG?raw=true)
+![Logo](https://github.com/Avery-Baechler/StackShow/blob/main/icons/banner.png?raw=true)
 
 # StackShow
 StackShow is a browser extention that reveals if a webpage is using popular tools and frameworks.
